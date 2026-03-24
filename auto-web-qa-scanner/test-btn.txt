@@ -1,0 +1,3 @@
+BUTTONS:
+<button _ngcontent-ng-c2129916677="" type="button" aria-label="Toggle password visibility" class="btn-eye"><i _ngcontent-ng-c2129916677="" class="fa-solid fa-eye"></i></button>
+<button _ngcontent-ng-c2129916677="" type="submit" aria-label="Sign in with email" class="login-btn login-btn-primary justify-content-center" style="margin-bottom: 24px;"><!----> Sign in </button>

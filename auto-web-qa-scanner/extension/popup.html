@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #1e293b;
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    
+    body {
+      width: 360px;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 12px;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .url-box {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: var(--panel);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+    }
+
+    .action-btn:disabled {
+      background: #334155;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Live Progress Section */
+    #progress-view {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--panel);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .status-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+      background-size: 200% 200%;
+      animation: gradientMove 2s linear infinite;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Results Dashboard Section */
+    #dashboard-view {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .dash-header {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .grid-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .stat-lbl {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .issues-list {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+    .badge.high { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+    .badge.med { background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
+    .badge.low { background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+
+    .link-btn {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .link-btn:hover { background: rgba(255,255,255,0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo"></div>
+      <div class="title">Auto QA</div>
+    </header>
+
+    <div class="url-box" id="tab-url">Loading...</div>
+
+    <button id="quick-scan-btn" class="action-btn"> Live Scan Screen</button>
+
+    <div id="progress-view">
+      <div class="status-text" id="status-text">Connecting to Server...</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div id="dashboard-view">
+      <div class="dash-header"> Analysis Complete</div>
+      
+      <div class="grid-summary">
+        <div class="stat-card">
+          <div class="stat-lbl">Total Issues</div>
+          <div class="stat-val" id="res-total">0</div>
+          <div class="issues-list" id="res-badges">
+            <span class="badge high">0 H</span>
+            <span class="badge med">0 M</span>
+            <span class="badge low">0 L</span>
+          </div>
+        </div>
+        <div class="stat-card">
+           <div class="stat-lbl">Coverage</div>
+           <div class="stat-val" id="res-pages">1</div>
+           <div class="stat-lbl" style="margin-top:2px;">DOM Snapshot</div>
+        </div>
+      </div>
+
+      <a href="#" id="view-report-link" class="link-btn" target="_blank"> View Detailed Report</a>
+      <a href="#" id="download-report-link" class="link-btn" style="border-color: #8b5cf6; color: #a78bfa;">⬇️ Download Report CSV/HTML</a>
+      <button id="new-scan-btn" class="link-btn" style="background: rgba(56,189,248,0.1); border-color: #38bdf8; color: #7dd3fc; margin-top: 8px; cursor: pointer; width: 100%;">🔄 Start Fresh Scan</button>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

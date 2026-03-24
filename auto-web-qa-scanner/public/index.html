@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auto Web QA Scanner – Automatically audit any website and generate a structured bug report with Playwright.">
+  <title>Auto Web QA Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">AutoWebQA<span class="logo-accent">Scanner</span></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#scan-section">Scan</a>
+        <a href="#features-section">Features</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">✨ Powered by Playwright</div>
+    <h1 class="hero-title">Automated Website<br><span class="gradient-text">QA Intelligence</span></h1>
+    <p class="hero-sub">Instantly audit any website for bugs, accessibility issues, performance bottlenecks, and content problems. Get a detailed, actionable report in minutes.</p>
+
+    <!-- Scan Form -->
+    <div class="scan-card" id="scan-section">
+      <div class="scan-form-wrap">
+        <div class="input-group">
+          <span class="input-prefix">🌐</span>
+          <input type="url" id="urlInput" class="url-input" placeholder="https://example.com" autocomplete="off" />
+        </div>
+        <div class="scan-options">
+          <label class="option-label">
+            <span>Crawl Depth</span>
+            <select id="depthSelect" class="depth-select">
+              <option value="1">1 – Homepage only</option>
+              <option value="2" selected>2 – +1 level deep</option>
+              <option value="3">3 – +2 levels deep</option>
+              <option value="4">4 – +3 levels deep</option>
+              <option value="5">5 – Full crawl (slow)</option>
+            </select>
+          </label>
+          <button id="scanBtn" class="scan-btn">
+            <span class="btn-icon">🚀</span>
+            <span>Start Scan</span>
+          </button>
+        </div>
+
+        <!-- Advanced Auth -->
+        <div class="auth-group">
+          <details>
+            <summary>Advanced: Authenticated Scan (Optional)</summary>
+            <div class="auth-inputs">
+              <input type="text" id="scanEmail" placeholder="Email / Username" autocomplete="off" />
+              <input type="password" id="scanPassword" placeholder="Password" autocomplete="off" />
+              <p class="auth-hint">If provided, the scanner will attempt to log in automatically before scanning.</p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+      <p class="disclaimer">Scanning will take 1–5 minutes depending on depth. Please keep this tab open.</p>
+    </div>
+  </section>
+
+  <!-- Progress Panel -->
+  <section class="progress-section hidden" id="progressSection">
+    <div class="progress-card">
+      <div class="progress-header">
+        <div class="spinner"></div>
+        <div>
+          <div class="progress-title">Scanning in progress…</div>
+          <div class="progress-url" id="progressUrl"></div>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar" style="width:0%"></div>
+      </div>
+      <div class="progress-step" id="progressStep">Initializing…</div>
+      <div class="progress-pct" id="progressPct">0%</div>
+    </div>
+  </section>
+
+  <!-- Results Dashboard -->
+  <section class="results-section hidden" id="resultsSection">
+    <div class="results-header">
+      <div>
+        <h2 class="results-title">Scan Complete 🎉</h2>
+        <p class="results-subtitle" id="resultsMeta"></p>
+      </div>
+      <button class="download-btn" id="downloadBtn">
+        <span>⬇️</span> Download HTML Report
+      </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <!-- Severity overview -->
+    <div class="sev-overview" id="sevOverview"></div>
+
+    <!-- Issue Explorer -->
+    <div class="issue-explorer">
+      <div class="category-tabs" id="categoryTabs"></div>
+      <div class="issues-panel" id="issuesPanel"></div>
+    </div>
+
+    <!-- New scan -->
+    <div style="text-align:center;margin-top:40px;">
+      <button class="rescan-btn" id="rescanBtn">↩ Scan Another Website</button>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features-section">
+    <h2 class="section-title">What We Check</h2>
+    <p class="section-sub">Six comprehensive scan modules cover every layer of your website</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚙️</div>
+        <h3>Functional</h3>
+        <p>Broken links, JS console errors, failed network requests, non-working forms and buttons</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>UI / UX</h3>
+        <p>Layout overflow, overlapping elements, distorted images across mobile, tablet & desktop</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>Content</h3>
+        <p>Placeholder text (Lorem Ipsum), thin content, repeated blocks, all-caps abuse</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖼️</div>
+        <h3>Media</h3>
+        <p>Broken images, missing src attributes, oversized or slow-loading media assets</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Performance</h3>
+        <p>Page load time, TTFB, heavy assets, render-blocking scripts, large stylesheets</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">♿</div>
+        <h3>Accessibility</h3>
+        <p>Missing alt text, heading hierarchy, unlabelled inputs, empty links, low contrast</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Built with ❤️ using <strong>Node.js</strong>, <strong>Express</strong> & <strong>Playwright</strong></p>
+    <p style="margin-top:6px;font-size:0.8rem;color:#555;">Auto Web QA Scanner © 2026</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
